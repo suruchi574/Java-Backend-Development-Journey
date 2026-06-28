@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- bean definitions here -->
+	<bean id ="alien1" class ="com.barbighaiya.Spring_First_Project.Alien" scope = "prototype"> </bean>
+	<!--Two types of scope we use mainly in spring
+		1. Singleton 
+		2. Prototype
+		By default scope will be treated as singleton if we will not define scope
+		In Singleton when the spring.xml file loads it creates object for all bean tag
+		In Prototype the every time we call getBean() method it creates the object -->
+	<bean id ="lap" class ="com.barbighaiya.Spring_First_Project.Laptop" > </bean>
+</beans>
+
+
+<!--<bean id ="alien2" class ="com.barbighaiya.Spring_First_Project.Alien"> </bean>-->
+	<!-- By defining multiple beans in the XML file, we can create and manage
+	`	multiple objects of the same class with different IDs.-->
