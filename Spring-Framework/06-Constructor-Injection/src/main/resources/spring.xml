@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- bean definitions here -->
+	<!--<bean id ="alien1" class ="com.barbighaiya.Spring_First_Project.Alien" scope = "prototype"> </bean>-->
+	<!--Two types of scope we use mainly in spring
+		1. Singleton 
+		2. Prototype
+		By default scope will be treated as singleton if we will not define scope
+		In Singleton when the spring.xml file loads it creates object for all bean tag
+		In Prototype the every time we call getBean() method it creates the object -->
+		
+	<bean id ="lap1" class ="com.barbighaiya.Spring_First_Project.Laptop" ></bean> 
+	 <!--For using setter injection in object that Object must be defined through bean tag-->
+	 	
+	<bean id ="alien1" class ="com.barbighaiya.Spring_First_Project.Alien"> <!--Singleton by default-->
+	<!-- Property tag Calls the setter method and injects the value
+		<property name="age" value=" 23"></property> 
+		<property name="lap" ref="lap1"></property>  -> in ref we use to put id of bean tag 
+		The <property> tag always goes inside the bean that owns the variable.-->
+		
+		<!--<Constructor-Arg> tag calls the parameterized constructor of class and injects the value
+		<constructor-arg></constructor-arg> we can write with closing tag also
+		In constructor-arg tag we can simply assign value and object without mentioning type
+		But it should be written in same sequence how it is defined in constructor
+		<constructor-arg value="23"/> 
+		<constructor-arg ref="lap1"/>
+		
+		There are 3 way to define constructor-arg tag 
+		1. By mentioning type inside tag : Fails if there are  multiple value of same type
+		2. By mentioning name inside the tag : It works only when sequence matches
+		3. By mentioning index no. inside the tag: It works every time  and index starts with 0
+		
+		By Using Type : 
+		<constructor-arg type = "int" value="23"/> 
+		<constructor-arg type = "com.barbighaiya.Spring_First_Project.Laptop" ref="lap1"/>
+		
+		By using name
+		<constructor-arg name="age" value="23"/> 
+		<constructor-arg name="lap" ref = "lap1"/>-->
+		
+		
+		<!--By using Index : Works every time -->
+		<constructor-arg index="1" ref="lap1"/>
+		<constructor-arg index="0" value="23"/> 
+		
+		
+	</bean>
+	
+	
+</beans>
+
+
+<!--<bean id ="alien2" class ="com.barbighaiya.Spring_First_Project.Alien"> </bean>-->
+	<!-- By defining multiple beans in the XML file, we can create and manage
+	`	multiple objects of the same class with different IDs.-->

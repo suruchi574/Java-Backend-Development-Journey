@@ -1,0 +1,222 @@
+=================================================
+APPLICATIONCONTEXT & CLASSPATHXMLAPPLICATIONCONTEXT
+=================================================
+
+                    SPRING FRAMEWORK
+                           |
+                           v
+                +--------------------+
+                | ApplicationContext |
+                +--------------------+
+                           |
+                           v
+          +----------------------------------+
+          | ClassPathXmlApplicationContext   |
+          +----------------------------------+
+                           |
+                           v
+                    Reads spring.xml
+                           |
+                           v
+                    Creates Beans
+                           |
+                           v
+                   Stores in Container
+                           |
+                           v
+                 Provides Objects using
+                       getBean()
+
+-------------------------------------------------
+WHAT IS APPLICATIONCONTEXT?
+-------------------------------------------------
+
+ApplicationContext is a Spring IoC Container.
+
+Responsibilities:
+✓ Creates Objects (Beans)
+✓ Stores Objects
+✓ Manages Objects
+✓ Injects Dependencies
+✓ Provides Objects when required
+
+Without Spring:
+
+Alien obj = new Alien();
+
+With Spring:
+
+Alien obj = context.getBean(Alien.class);
+
+-------------------------------------------------
+WHAT IS CLASSPATHXMLAPPLICATIONCONTEXT?
+-------------------------------------------------
+
+It is an implementation class of
+ApplicationContext.
+
+Used when configuration is written in XML.
+
+Example:
+
+ApplicationContext context =
+new ClassPathXmlApplicationContext("spring.xml");
+
+Meaning:
+
+1. Read spring.xml
+2. Create Beans
+3. Store Beans
+4. Manage Beans
+5. Return Beans when requested
+
+-------------------------------------------------
+SPRING CONTAINER WORKING
+-------------------------------------------------
+
+                spring.xml
+
+                     |
+                     |
+                     v
+
+    <bean id="alien"
+          class="com.barbighaiya.Alien"/>
+
+                     |
+                     |
+                     v
+
+           Spring Container Created
+
+    +--------------------------------+
+    |            Container           |
+    |                                |
+    |   alien  ---> Alien Object     |
+    |                                |
+    +--------------------------------+
+
+                     |
+                     |
+                     v
+
+       context.getBean("alien")
+
+                     |
+                     |
+                     v
+
+            Alien Object Returned
+
+-------------------------------------------------
+FLOW OF EXECUTION
+-------------------------------------------------
+
+Program Start
+      |
+      v
+
+ClassPathXmlApplicationContext
+      |
+      v
+
+Read spring.xml
+      |
+      v
+
+Find Bean Definitions
+      |
+      v
+
+Create Objects
+      |
+      v
+
+Store Objects in Container
+      |
+      v
+
+getBean()
+      |
+      v
+
+Return Required Object
+      |
+      v
+
+Use Object
+
+-------------------------------------------------
+WHY TYPECASTING?
+-------------------------------------------------
+
+Method:
+
+Object getBean(String beanName)
+
+Spring returns:
+
+        Object
+           |
+           v
+      Alien Object
+
+Java sees:
+
+Object obj = context.getBean("alien");
+
+To use Alien methods:
+
+Alien obj =
+(Alien) context.getBean("alien");
+
+                     Object
+                        |
+                        |
+                        v
+                     Alien
+
+Typecasting tells Java:
+
+"I know this Object is actually an Alien."
+
+-------------------------------------------------
+MODERN APPROACH
+-------------------------------------------------
+
+No Typecasting Required
+
+Alien obj =
+context.getBean(Alien.class);
+
+OR
+
+Alien obj =
+context.getBean("alien", Alien.class);
+
+Advantages:
+✓ Cleaner
+✓ Type Safe
+✓ Recommended
+
+-------------------------------------------------
+KEYWORDS
+-------------------------------------------------
+
+✓ IoC (Inversion of Control)
+✓ Spring Container
+✓ Bean
+✓ ApplicationContext
+✓ ClassPathXmlApplicationContext
+✓ XML Configuration
+✓ Dependency Injection
+✓ getBean()
+
+-------------------------------------------------
+ONE-LINE SUMMARY
+-------------------------------------------------
+
+ApplicationContext is the Spring Container
+that creates, manages and provides beans,
+while ClassPathXmlApplicationContext loads
+bean definitions from an XML configuration file.
