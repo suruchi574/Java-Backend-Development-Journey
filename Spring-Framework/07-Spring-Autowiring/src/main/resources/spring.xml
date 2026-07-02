@@ -9,8 +9,19 @@
     <!-- Bean tag is used to create and manage objects through Spring IoC Container -->
 
     <!-- Computer Bean -->
-    <bean id="comp1" class="com.barbighaiya.Spring_First_Project.Laptop"/>
+    <bean id="comp1" class="com.barbighaiya.Spring_First_Project.Laptop" primary="true"/>
+    <bean id="comp2" class="com.barbighaiya.Spring_First_Project.Desktop" />
     
+	<!-- Op: 23
+			Coding....
+			Compiling from Laptop
+			-->
+    <!-- Primary Bean Type:
+  			When there is more than one bean with same type and we are using byTyppe 
+    		We can mention primary bean inside bean definition
+    		So that Spring will give priority to that particular bean 
+        -->
+        
     <!-- If I want to use Desktop instead of Laptop,
          I just need to change the bean class. -->
          

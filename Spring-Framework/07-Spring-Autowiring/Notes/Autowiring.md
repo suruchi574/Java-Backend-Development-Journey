@@ -12,7 +12,7 @@ Instead of writing the `<property>` tag manually, Spring can automatically find 
 
 Without autowiring, we manually inject dependencies.
 
-Example:
+### Example
 
 ```xml
 <bean id="comp1" class="com.barbighaiya.Spring_First_Project.Laptop"/>
@@ -22,13 +22,13 @@ Example:
 </bean>
 ```
 
-Here, Spring calls:
+Spring internally calls:
 
 ```java
 alien.setComp(comp1);
 ```
 
-With autowiring, we don't need to write the `<property>` tag. Spring performs the injection automatically.
+With autowiring, we don't need to write the `<property>` tag. Spring automatically injects the required dependency.
 
 ---
 
@@ -46,7 +46,7 @@ Spring provides four autowiring modes.
 
 Spring searches for a bean whose **id matches the property name**.
 
-Example:
+### Example
 
 ```java
 private Computer comp;
@@ -66,15 +66,13 @@ and
       autowire="byName"/>
 ```
 
-Spring automatically executes:
+Spring internally executes:
 
 ```java
 alien.setComp(comp);
 ```
 
-### Important Rule
-
-For **byName** to work:
+### Important Rules
 
 * Property name and bean id must be exactly the same.
 * No `<property>` tag is required.
@@ -89,7 +87,7 @@ private Computer comp;
 <bean id="comp" class="Laptop"/>
 ```
 
-✅ Works
+✅ Works Successfully
 
 ---
 
@@ -97,7 +95,7 @@ private Computer comp;
 
 Spring searches for a bean whose **type matches the property type**.
 
-Example:
+### Example
 
 ```java
 private Computer comp;
@@ -134,7 +132,7 @@ Since `Laptop` implements the `Computer` interface, Spring injects the `Laptop` 
 
 Spring performs dependency injection through the constructor instead of setter methods.
 
-Example:
+### Example
 
 ```xml
 <bean id="alien1"
@@ -183,8 +181,8 @@ private Computer comp;
 
 Matches using:
 
-* Property type
-* Bean type
+* Property **type**
+* Bean **type**
 
 Example:
 
@@ -196,7 +194,7 @@ private Computer comp;
 <bean id="comp1" class="Laptop"/>
 ```
 
-The bean id is different, but the type matches.
+Even though the bean id is different, the type matches.
 
 ✔ Injection succeeds.
 
@@ -218,7 +216,7 @@ Example:
 
 In this case, Spring **gives priority to the `<property>` tag**.
 
-Manual configuration always overrides autowiring.
+Manual dependency injection always overrides autowiring.
 
 ---
 
@@ -265,17 +263,60 @@ expected single matching bean but found 2
 
 # How to Resolve byType Conflicts
 
-When multiple beans have the same type, you can:
+When multiple beans have the same type, we can resolve the conflict by:
 
-* Use **byName** autowiring.
-* Use the `<property>` tag with `ref`.
-* Mark one bean as **primary** (used in annotation-based configuration).
+* Using **byName** autowiring.
+* Using the `<property>` tag with `ref`.
+* Marking one bean as the **Primary Bean** using `primary="true"`.
+
+---
+
+# Primary Bean
+
+When there is more than one bean of the same type and we are using **autowire="byType"**, Spring does not know which bean should be injected.
+
+To solve this problem, we can mark one bean as the **Primary Bean**.
+
+Spring gives first priority to the bean whose `primary` attribute is set to `true`.
+
+### Example
+
+```xml
+<bean id="laptop"
+      class="com.barbighaiya.Spring_First_Project.Laptop"
+      primary="true"/>
+
+<bean id="desktop"
+      class="com.barbighaiya.Spring_First_Project.Desktop"/>
+```
+
+If the `Alien` class contains:
+
+```java
+private Computer comp;
+```
+
+and we use:
+
+```xml
+<bean id="alien1"
+      class="com.barbighaiya.Spring_First_Project.Alien"
+      autowire="byType"/>
+```
+
+Spring automatically injects the **Laptop** bean because it is marked as the Primary Bean.
+
+### Important Notes
+
+* `primary="true"` gives higher priority to that bean during autowiring.
+* It is useful when multiple beans have the same type.
+* Only one bean should be marked as primary. Otherwise, Spring will again throw an exception because it cannot decide which bean to inject.
 
 ---
 
 # Polymorphism in Spring
 
-Your `Alien` class contains:
+The `Alien` class contains:
 
 ```java
 private Computer comp;
@@ -287,10 +328,11 @@ Both classes implement it:
 
 ```java
 Laptop implements Computer
+
 Desktop implements Computer
 ```
 
-Therefore, the setter can accept any implementation.
+Therefore, the setter can accept the object of any class that implements the `Computer` interface.
 
 ```java
 public void setComp(Computer comp) {
@@ -305,7 +347,7 @@ Spring can inject either:
 
 depending on the bean configuration.
 
-This is an example of **runtime polymorphism**.
+This is an example of **Runtime Polymorphism**.
 
 ---
 
@@ -344,7 +386,7 @@ Coding....
 Compiling from Desktop
 ```
 
-The `Alien` class never needs to know which implementation it receives.
+The `Alien` class does not know which implementation it receives. It simply calls the `compile()` method through the `Computer` interface.
 
 ---
 
@@ -366,5 +408,6 @@ The `Alien` class never needs to know which implementation it receives.
 * `byType` matches the **bean type** with the **property type**.
 * Manual `<property>` injection has higher priority than autowiring.
 * If multiple beans have the same type, `byType` throws an exception.
+* `primary="true"` gives higher priority to a bean when multiple beans have the same type.
 * An interface can hold objects of any class that implements it.
-* Spring uses this feature to achieve loose coupling and runtime polymorphism.
+* Spring uses interfaces to achieve **Loose Coupling** and **Runtime Polymorphism**.
