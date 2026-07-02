@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Bean tag is used to create and manage objects through Spring IoC Container -->
+
+    <!-- Computer Bean -->
+    <bean id="comp1" class="com.barbighaiya.Spring_First_Project.Laptop"/>
+    
+    <!-- If I want to use Desktop instead of Laptop,
+         I just need to change the bean class. -->
+         
+    <!-- <bean id="comp1" class="com.barbighaiya.Spring_First_Project.Desktop"/> -->
+
+    <!-- Alien Bean -->
+    <!-- Singleton is the default scope.
+         autowire="byType" will inject the bean whose type matches the property type. -->
+
+    <bean id="alien1"
+          class="com.barbighaiya.Spring_First_Project.Alien"
+          autowire="byType">
+
+        <!-- Setter Injection for primitive value -->
+        <property name="age" value="23"/>
+
+        <!-- Manual Object Injection
+
+             Spring internally calls:
+             alien.setComp(comp1);
+
+             <property name="comp" ref="comp1"/>
+
+             If both autowiring and property tag are present,
+             Spring gives priority to the property tag.
+        -->
+
+    </bean>
+
+</beans>
