@@ -88,31 +88,6 @@ This repository will help me:
 
 ---
 
-## 🌳 Repository Structure
-
-I will organize my learning using different branches.
-
-Examples:
-
-* feature/spring-framework
-* feature/spring-boot
-* feature/jdbc
-* feature/rest-api
-* feature/jpa
-* feature/security
-* feature/docker
-* feature/microservices
-* feature/spring-ai
-
-Each branch will contain:
-
-* Source Code 💻
-* Notes 📝
-* Examples 💡
-* Projects 🚀
-
----
-
 ## 📅 Progress Updates
 
 I will keep updating this repository as I move through the course.
