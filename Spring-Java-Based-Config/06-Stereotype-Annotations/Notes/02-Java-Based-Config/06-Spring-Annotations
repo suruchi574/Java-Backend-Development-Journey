@@ -1,4 +1,3 @@
-````md
 # Spring Stereotype Annotations (`@Component`, `@ComponentScan`, `@Autowired`, `@Primary`, `@Qualifier`, `@Value`, `@Scope`)
 
 ## What is `@Component`?
@@ -23,13 +22,13 @@ public class Desktop implements Computer {
 
 Now Spring automatically creates objects of `Laptop` and `Desktop`.
 
-> **Note:** `@Component` should be placed on classes, not interfaces.
+> **Note:** `@Component` should be used on classes, not interfaces.
 
 ---
 
 # What is `@ComponentScan`?
 
-`@ComponentScan` tells Spring **where to look** for classes annotated with `@Component`.
+`@ComponentScan` tells Spring **which package to scan** for classes annotated with `@Component`.
 
 ### Example
 
@@ -42,7 +41,7 @@ public class AppConfig {
 
 Spring scans the package
 
-```
+```text
 com.barbighaiya.Spring_First_Project
 ```
 
@@ -58,25 +57,25 @@ When the application starts,
 
 ```java
 ApplicationContext context =
-new AnnotationConfigApplicationContext(AppConfig.class);
+        new AnnotationConfigApplicationContext(AppConfig.class);
 ```
 
-Spring performs the following steps:
+Spring performs these steps:
 
-```
+```text
 1. Reads AppConfig class.
         ↓
 2. Finds @Configuration.
         ↓
 3. Finds @ComponentScan.
         ↓
-4. Scans the specified package.
+4. Scans the package.
         ↓
-5. Finds all classes with @Component.
+5. Finds classes with @Component.
         ↓
 6. Creates Singleton beans.
         ↓
-7. Performs Dependency Injection.
+7. Injects dependencies.
         ↓
 8. IoC Container is ready.
 ```
@@ -87,7 +86,7 @@ Spring performs the following steps:
 
 Suppose the package contains
 
-```
+```text
 Alien
 Laptop
 Desktop
@@ -99,34 +98,39 @@ Spring checks every class.
 
 ```java
 @Component
-public class Alien { }
+public class Alien {
+}
 ```
 
 ✔ Bean created
 
 ```java
 @Component
-public class Laptop { }
+public class Laptop {
+}
 ```
 
 ✔ Bean created
 
 ```java
 @Component
-public class Desktop { }
+public class Desktop {
+}
 ```
 
 ✔ Bean created
 
 ```java
-public class App { }
+public class App {
+}
 ```
 
 ❌ Ignored
 
 ```java
 @Component
-public interface Computer { }
+public interface Computer {
+}
 ```
 
 ❌ Ignored because Spring cannot create an object of an interface.
@@ -135,16 +139,16 @@ public interface Computer { }
 
 # What is `@Autowired`?
 
-`@Autowired` tells Spring to automatically inject the required dependency.
+`@Autowired` tells Spring to inject the required dependency automatically.
 
-Example
+### Example
 
 ```java
 @Autowired
 private Computer comp;
 ```
 
-Spring searches the IoC Container for a bean of type `Computer` and injects it automatically.
+Spring searches the IoC Container for a bean of type `Computer` and injects it.
 
 This is called **Dependency Injection (DI).**
 
@@ -156,37 +160,32 @@ Example
 
 ```java
 @Component
-public class Laptop implements Computer { }
+public class Laptop implements Computer {
+}
 
 @Component
-public class Desktop implements Computer { }
+public class Desktop implements Computer {
+}
 ```
 
-Now Spring finds
+Both classes implement `Computer`.
 
-```
-Computer
-    ↑
-Laptop
-Desktop
-```
+Spring throws:
 
-Since two beans are available, Spring throws
-
-```
-No qualifying bean of type...
+```text
+No qualifying bean of type 'Computer'
 expected single matching bean but found 2
 ```
 
-To solve this problem we use **@Primary** or **@Qualifier**.
+To solve this, use **@Primary** or **@Qualifier**.
 
 ---
 
 # `@Primary`
 
-`@Primary` makes one bean the **default bean**.
+`@Primary` marks one bean as the **default bean**.
 
-Example
+### Example
 
 ```java
 @Component
@@ -195,7 +194,7 @@ public class Desktop implements Computer {
 }
 ```
 
-Now whenever Spring needs a `Computer`, it injects `Desktop` by default.
+Now whenever Spring needs a `Computer`, it injects the `Desktop` bean by default.
 
 ---
 
@@ -203,7 +202,7 @@ Now whenever Spring needs a `Computer`, it injects `Desktop` by default.
 
 `@Qualifier` tells Spring exactly which bean to inject.
 
-Example
+### Example
 
 ```java
 @Autowired
@@ -213,15 +212,15 @@ public void setComp(Computer comp) {
 }
 ```
 
-Even if `Desktop` is marked with `@Primary`, Spring injects the `Laptop` bean because **`@Qualifier` has higher priority than `@Primary`.**
+Even if `Desktop` has `@Primary`, Spring injects the `Laptop` bean because **`@Qualifier` has higher priority**.
 
 ---
 
 # `@Value`
 
-`@Value` injects a fixed value into a bean property.
+`@Value` injects a fixed value into a field.
 
-Example
+### Example
 
 ```java
 @Component
@@ -234,13 +233,13 @@ public class Alien {
 
 Spring automatically sets
 
-```
+```text
 age = 23
 ```
 
-while creating the bean.
+during bean creation.
 
-No need to call
+No need to write
 
 ```java
 obj.setAge(23);
@@ -252,12 +251,12 @@ obj.setAge(23);
 
 By default, every Spring bean is **Singleton**.
 
-```
+```text
 One Bean
 One Object
 ```
 
-Example
+### Example
 
 ```java
 @Component
@@ -280,22 +279,19 @@ public class Laptop {
 
 Now Spring creates a **new object** every time the bean is requested.
 
-```
+```text
 getBean() → Laptop1
-
 getBean() → Laptop2
-
 getBean() → Laptop3
 ```
 
-> `@Scope` can be used on a `@Component` class or a `@Bean` method.
-> It should **not** be used on methods like setters.
+> **Note:** `@Scope` can be used on a `@Component` class or a `@Bean` method. It should not be used on setter methods.
 
 ---
 
 # Why was the output like this?
 
-```
+```text
 Alien Object Created
 Laptop Object Created
 Desktop Object Created
@@ -308,7 +304,7 @@ Compiling from Laptop
 
 Spring starts the IoC Container.
 
-```
+```java
 new AnnotationConfigApplicationContext(AppConfig.class)
 ```
 
@@ -318,7 +314,7 @@ new AnnotationConfigApplicationContext(AppConfig.class)
 
 Spring scans the package and finds
 
-```
+```text
 Alien
 Laptop
 Desktop
@@ -330,7 +326,7 @@ Desktop
 
 Spring starts creating the `Alien` bean.
 
-```
+```text
 Alien Object Created
 ```
 
@@ -345,9 +341,9 @@ Spring finds
 private int age;
 ```
 
-So it sets
+and sets
 
-```
+```text
 age = 23
 ```
 
@@ -363,18 +359,18 @@ Spring finds
 public void setComp(Computer comp)
 ```
 
-It now needs a `Computer` bean.
+It needs a `Computer` bean.
 
-Available beans
+Available beans:
 
-```
+```text
 Laptop
 Desktop
 ```
 
-Since `@Qualifier("laptop")` is present, Spring creates the `Laptop` bean and injects it.
+Because `@Qualifier("laptop")` is present, Spring injects the `Laptop` bean.
 
-```
+```text
 Laptop Object Created
 ```
 
@@ -382,11 +378,9 @@ Laptop Object Created
 
 ### Step 6
 
-Spring continues scanning.
+Spring continues creating the remaining Singleton beans.
 
-It also creates the `Desktop` bean because it is a Singleton bean.
-
-```
+```text
 Desktop Object Created
 ```
 
@@ -408,13 +402,13 @@ is executed, Spring returns the already-created `Alien` bean.
 
 ### Step 8
 
-```
+```java
 System.out.println(obj.getAge());
 ```
 
 prints
 
-```
+```text
 23
 ```
 
@@ -422,21 +416,19 @@ prints
 
 ### Step 9
 
-```
+```java
 obj.code();
 ```
 
 calls
 
-```
+```java
 comp.compile();
 ```
 
-Since `Laptop` was injected,
+Since `Laptop` was injected, the output is
 
-the output is
-
-```
+```text
 Compiling from Laptop
 ```
 
@@ -444,7 +436,7 @@ Compiling from Laptop
 
 # Complete Flow
 
-```
+```text
 Application Starts
         │
         ▼
@@ -487,12 +479,11 @@ Returns Existing Bean
 ## Key Points
 
 - `@Component` → Marks a class as a Spring Bean.
-- `@ComponentScan` → Tells Spring where to scan for components.
+- `@ComponentScan` → Tells Spring which package to scan.
 - `@Autowired` → Automatically injects dependencies.
-- `@Primary` → Makes a bean the default choice.
+- `@Primary` → Makes one bean the default choice.
 - `@Qualifier` → Injects a specific bean and overrides `@Primary`.
 - `@Value` → Injects a fixed value into a field.
-- `@Scope("prototype")` → Creates a new bean object every time it is requested.
+- `@Scope("prototype")` → Creates a new object every time the bean is requested.
 - Singleton beans are created when the IoC Container starts.
 - Spring cannot create objects of interfaces, so `@Component` should not be used on interfaces.
-````
