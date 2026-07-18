@@ -1,4 +1,4 @@
-# 05: Spring JDBC - JdbcTemplate, schema.sql & data.sql
+# Spring JDBC - JdbcTemplate, schema.sql & data.sql
 
 Spring JDBC provides the **JdbcTemplate** class, which makes database operations much easier.
 

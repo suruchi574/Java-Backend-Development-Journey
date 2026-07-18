@@ -1,4 +1,4 @@
-# 03: Spring JDBC (JDBC Template, H2 Database & Layers)
+# Spring JDBC (JDBC Template, H2 Database & Layers)
 
 Spring JDBC is a module of the Spring Framework that simplifies database operations.
 
