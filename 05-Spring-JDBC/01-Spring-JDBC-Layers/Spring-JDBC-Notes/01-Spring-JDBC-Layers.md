@@ -1,7 +1,264 @@
-# 03: Spring JDBC Layers (Model, Repository, Service & Application)
+# 03: Spring JDBC (JDBC Template, H2 Database & Layers)
 
-In this project, we are following a layered architecture.  
-Each layer has a different responsibility. This makes the code clean, reusable, and easy to maintain.
+Spring JDBC is a module of the Spring Framework that simplifies database operations.
+
+Instead of writing a large amount of JDBC code, Spring provides the **JdbcTemplate** class, which reduces boilerplate code and makes database programming easier.
+
+---
+
+# What is JDBC?
+
+**JDBC (Java Database Connectivity)** is a Java API that allows a Java application to communicate with a database.
+
+Using JDBC, we can
+
+- Connect to a database
+- Insert data
+- Retrieve data
+- Update data
+- Delete data
+
+Without Spring, we have to write many lines of code for every database operation.
+
+Spring JDBC removes most of this repetitive code.
+
+---
+
+# JDBC Steps Without Spring
+
+Whenever we use traditional JDBC, we need to follow these steps.
+
+### 1. Load the Driver
+
+Load the JDBC driver of the database.
+
+Example
+
+```java
+Class.forName("org.h2.Driver");
+```
+
+---
+
+### 2. Define the Connection URL
+
+Provide the database URL along with username and password.
+
+Example
+
+```java
+jdbc:h2:mem:testdb
+```
+
+---
+
+### 3. Establish Connection
+
+Create a connection with the database.
+
+```java
+Connection con = DriverManager.getConnection(url, username, password);
+```
+
+---
+
+### 4. Create Statement
+
+Create a `Statement` or `PreparedStatement` object to execute SQL queries.
+
+```java
+PreparedStatement ps = con.prepareStatement(sql);
+```
+
+---
+
+### 5. Execute Query
+
+Execute SQL statements.
+
+Examples
+
+```java
+executeQuery();
+```
+
+or
+
+```java
+executeUpdate();
+```
+
+---
+
+### 6. Process the Result
+
+Read the returned data using `ResultSet`.
+
+```java
+while(resultSet.next()){
+
+}
+```
+
+---
+
+### 7. Close Resources
+
+Close the
+
+- ResultSet
+- Statement
+- Connection
+
+This avoids memory leaks and releases database resources.
+
+---
+
+# Problems with Traditional JDBC
+
+Traditional JDBC requires a lot of repetitive code.
+
+For every database operation, we have to
+
+- Create a connection
+- Create statements
+- Execute SQL queries
+- Handle exceptions
+- Close all resources manually
+
+This makes the code lengthy and difficult to maintain.
+
+---
+
+# Spring JDBC
+
+Spring JDBC simplifies database programming.
+
+Instead of writing all the JDBC code manually, Spring provides the **JdbcTemplate** class.
+
+It automatically handles most of the repetitive tasks.
+
+Because of this, developers mainly focus on writing SQL queries and business logic.
+
+---
+
+# JdbcTemplate
+
+`JdbcTemplate` is the core class of Spring JDBC.
+
+It internally handles
+
+- Database connection
+- SQL query execution
+- Exception handling
+- Closing database resources
+- Returning query results
+
+Some commonly used methods are
+
+- `update()`
+- `query()`
+- `queryForObject()`
+
+This reduces boilerplate code and makes the application cleaner.
+
+---
+
+# DataSource
+
+`DataSource` is responsible for providing database connections.
+
+It acts as a **factory** for creating `Connection` objects.
+
+Instead of creating connections manually using `DriverManager`, Spring uses `DataSource`.
+
+Benefits of DataSource
+
+- Creates database connections
+- Manages connections automatically
+- Supports connection pooling
+- Improves application performance
+
+---
+
+# Connection Pooling
+
+Creating a new database connection every time is slow.
+
+Spring stores a group of reusable connections.
+
+Whenever required,
+
+- Spring gives an available connection.
+- After use, the connection is returned to the pool.
+
+This process is called **Connection Pooling**.
+
+Benefits
+
+- Better performance
+- Faster database access
+- Efficient resource management
+
+---
+
+# H2 In-Memory Database
+
+Spring Boot provides built-in support for the **H2 Database**.
+
+H2 is an **In-Memory Database**, which means the data is stored in RAM.
+
+Characteristics
+
+- No separate database installation is required.
+- Data is stored only while the application is running.
+- When the application stops or restarts, all data is lost.
+
+H2 is mainly used for
+
+- Learning Spring JDBC
+- Development
+- Testing
+
+It is generally not used in production because the data is temporary.
+
+---
+
+# Why are we using H2 in this project?
+
+We are using H2 because
+
+- It is lightweight.
+- It comes with Spring Boot support.
+- No manual installation is needed.
+- It is perfect for practicing Spring JDBC concepts.
+
+---
+
+# Layered Architecture
+
+Our Spring JDBC project follows a layered architecture.
+
+Each layer has its own responsibility.
+
+```
+
+Application Layer
+        │
+        ▼
+Service Layer
+        │
+        ▼
+Repository Layer
+        │
+        ▼
+Database
+
+```
+
+The request always flows from top to bottom.
+
+After understanding these basic concepts, let's understand each layer of our project.
 
 ---
 
@@ -471,193 +728,41 @@ Print Student List
 
 # Layers Summary
 
-## 1. Model Layer
+## Model Layer
 
-**Class:** `Student.java`
-
-The **Model Layer** represents the entity that maps to a table in the database.
-
-- One class represents one database table.
-- One object of the class represents one row in that table.
-- Contains variables (fields), getters, setters, and the `toString()` method.
-- Uses `@Component` so that Spring creates and manages the object.
-- Uses `@Scope("prototype")` to create a new object every time `getBean()` is called.
-
-### Code Example
-
-```java
-@Component
-@Scope("prototype")
-public class Student {
-
-    private String name;
-    private int rollNo;
-    private int marks;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getRollNo() {
-        return rollNo;
-    }
-
-    public void setRollNo(int rollNo) {
-        this.rollNo = rollNo;
-    }
-
-    public int getMarks() {
-        return marks;
-    }
-
-    public void setMarks(int marks) {
-        this.marks = marks;
-    }
-
-    @Override
-    public String toString() {
-        return "Student [name=" + name + ", rollNo=" + rollNo + ", marks=" + marks + "]";
-    }
-}
-```
+- Represents a database table.
+- One object represents one row.
+- Contains variables, getters, setters, and `toString()`.
+- Uses `@Component`.
+- Uses `@Scope("prototype")` to create a new object every time.
 
 ---
 
-## 2. Repository Layer
+## Repository Layer
 
-**Class:** `StudentRepo.java`
-
-The **Repository Layer** is responsible for interacting with the database.
-
-- Communicates directly with the database.
-- Contains methods to save and retrieve data.
-- Uses `@Repository` annotation.
-- In this project, `save()` prints a message and `findAll()` returns an empty list. Later, these methods will contain SQL queries.
-
-### Code Example
-
-```java
-@Repository
-public class StudentRepo {
-
-    public void save(Student s) {
-        System.out.println("Saved");
-    }
-
-    public List<Student> findAll() {
-        List<Student> student = new ArrayList<>();
-        return student;
-    }
-}
-```
+- Communicates with the database.
+- Contains methods like `save()` and `findAll()`.
+- Uses `@Repository`.
 
 ---
 
-## 3. Service Layer
+## Service Layer
 
-**Class:** `StudentService.java`
-
-The **Service Layer** contains the business logic of the application.
-
-- Acts as a bridge between the Application Layer and the Repository Layer.
-- Uses `@Service` annotation.
+- Contains business logic.
+- Connects the Application layer with the Repository layer.
+- Uses `@Service`.
 - Uses Dependency Injection with `@Autowired`.
-- Calls Repository methods to save and retrieve student data.
-
-### Code Example
-
-```java
-@Service
-public class StudentService {
-
-    private StudentRepo repo;
-
-    @Autowired
-    public void setRepo(StudentRepo repo) {
-        this.repo = repo;
-    }
-
-    public void addStudent(Student s) {
-        repo.save(s);
-    }
-
-    public List<Student> getStudents() {
-        return repo.findAll();
-    }
-}
-```
 
 ---
 
-## 4. Application Layer
+## Application Layer
 
-**Class:** `SpringBootJdbcApplication.java`
-
-The **Application Layer** is the entry point of the Spring Boot application.
-
-- Starts the Spring Boot application.
-- Creates the Spring Container.
-- Gets Spring Beans using `ApplicationContext`.
-- Creates a Student object.
-- Calls the Service Layer to add and retrieve student data.
-
-### Code Example
-
-```java
-@SpringBootApplication
-public class SpringBootJdbcApplication {
-
-    public static void main(String[] args) {
-
-        ApplicationContext context =
-                SpringApplication.run(SpringBootJdbcApplication.class, args);
-
-        Student s = context.getBean(Student.class);
-
-        s.setName("Suruchi");
-        s.setRollNo(61);
-        s.setMarks(78);
-
-        StudentService service = context.getBean(StudentService.class);
-
-        service.addStudent(s);
-
-        List<Student> students = service.getStudents();
-
-        System.out.println(students);
-    }
-}
-```
+- Entry point of the application.
+- Starts Spring Boot.
+- Gets Beans from the Spring Container.
+- Calls Service methods to add and retrieve data.
 
 ---
-
-## Layer Flow
-
-```
-Application Layer
-        │
-        ▼
-Service Layer
-        │
-        ▼
-Repository Layer
-        │
-        ▼
-Database
-```
-
-**Flow Explanation:**
-
-1. The **Application Layer** creates the `Student` object and calls the Service Layer.
-2. The **Service Layer** contains the business logic and forwards the request to the Repository Layer.
-3. The **Repository Layer** communicates with the database to save or retrieve data.
-4. The retrieved data is returned back through the Service Layer to the Application Layer.
-
-
 
 # Important Interview Points
 
