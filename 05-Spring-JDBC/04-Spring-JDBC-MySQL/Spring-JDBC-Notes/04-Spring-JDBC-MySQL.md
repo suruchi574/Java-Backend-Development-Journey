@@ -1,4 +1,4 @@
-# 07 - Spring Boot JDBC with MySQL
+# Spring Boot JDBC with MySQL
 
 MySQL is one of the most popular open-source Relational Database Management Systems (RDBMS).
 
