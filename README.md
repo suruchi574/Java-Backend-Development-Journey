@@ -4,7 +4,7 @@ Welcome to my Backend Development Learning Repository!
 
 This repository is a record of my ongoing journey of strengthening my Java Backend Development skills through continuous learning, hands-on practice, and real-world project building. 📚💻🚀 
 
-I will be regularly updating this repository with everything I learn, build, practice, and explore throughout my backend development journey.
+I will be regularly updating this repository with everything I learn, build, practice, and explore throughout my backend development journey..
 
 Whether it's:
 
