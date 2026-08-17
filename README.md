@@ -100,7 +100,7 @@ Learn → Practice → Build → Commit → Push → Repeat
 
 ---
 
-## ⭐ Learning Never Stops..
+## ⭐ Learning Never Stops.
 
 This repository is not just about writing code.
 
