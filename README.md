@@ -6,7 +6,7 @@ This repository is a record of my ongoing journey of strengthening my Java Backe
 
 I will be regularly updating this repository with everything I learn, build, practice, and explore throughout my backend development journey..
 
-Whether it's:
+Whether it's :-
 
 * 📝 Notes
 * 💡 Concepts
