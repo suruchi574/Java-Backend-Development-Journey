@@ -1,4 +1,4 @@
-# JPA vs MongoDB — Interview Notebook Notes
+# JPA vs MongoDB — Notebook Notes
 
 ## 1. Why JPA is Not Used with MongoDB
 
@@ -74,7 +74,7 @@ MongoDB:
 Java Object → Spring Data MongoDB → MongoDB
 ```
 
-> **Interview point:** Hibernate is a common JPA implementation for relational databases. Spring Data MongoDB is not JPA; it is the Spring Data module designed specifically for MongoDB.
+> **point:** Hibernate is a common JPA implementation for relational databases. Spring Data MongoDB is not JPA; it is the Spring Data module designed specifically for MongoDB.
 
 ---
 
@@ -199,7 +199,7 @@ Dynamic/complex query → Criteria API
 
 ---
 
-## 7. Important Interview Points
+## 7. Important Points
 
 - JPA is designed for **relational databases**.
 - JPA works with the **relational/table-based model**.
