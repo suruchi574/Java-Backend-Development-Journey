@@ -268,7 +268,7 @@ Spring Data provides a common programming style, but the actual database technol
 
 ---
 
-## 9. Interview Questions & Short Answers
+## 9. Important Questions & Short Answers
 
 ### Q1. Why is JPA not used with MongoDB?
 
@@ -357,6 +357,6 @@ Dynamic / complex queries
 Programmatic query construction
 ```
 
-### One-Line Interview Answer
+### One-Line Answer
 
 > **JPA is primarily designed for relational databases, whereas MongoDB is a NoSQL document-oriented database, so Spring Data MongoDB is used instead of JPA to provide database-access abstractions suitable for MongoDB.**
