@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.barbighaiya.journalApp.entity.JournalEntry;
+import com.barbighaiya.journalApp.service.JournalEntryService;
 
 @RestController
 /*
@@ -23,6 +25,8 @@ import com.barbighaiya.journalApp.entity.JournalEntry;
 @RequestMapping("/journal")
 public class JournalEntryController {
 	
+	@Autowired
+	private JournalEntryService journalEntryService;
 	
 	@GetMapping
 	public List<JournalEntry> getAll()
@@ -36,6 +40,7 @@ public class JournalEntryController {
 	 * and turn it into a java object that i can use in my code.*/
 	public boolean createEntry(@RequestBody JournalEntry myEntry )
 	{
+		journalEntryService.saveEntry(myEntry);
 		return true;
 	}
 	
