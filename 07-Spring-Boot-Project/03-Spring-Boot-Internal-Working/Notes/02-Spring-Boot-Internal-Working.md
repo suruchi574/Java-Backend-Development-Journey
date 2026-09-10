@@ -3,7 +3,7 @@
 ## 1. Introduction
 
 Before understanding Spring Boot internal working, we need to understand
-one basic problem:
+one basic problem:-
 
 > **Who creates and manages the objects used by our application?**
 
