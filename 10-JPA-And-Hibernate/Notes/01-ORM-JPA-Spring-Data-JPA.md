@@ -108,7 +108,7 @@ Here:
 * `@Id` → identifies the primary key.
 * Fields such as `name` and `email` can be mapped to database columns.
 
-## Why is JPA needed?
+## Why is JPA needed??
 
 JPA provides a **standard way** to perform persistence and ORM in Java.
 
