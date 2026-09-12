@@ -127,7 +127,7 @@ This means we do not need to write basic CRUD database operations manually.
 
 ## 5. Application Layer Flow
 
-The basic backend flow is:
+The basic backend flow is:-
 
 ```text
 Client
